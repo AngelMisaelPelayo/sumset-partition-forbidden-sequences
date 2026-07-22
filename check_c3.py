@@ -1,4 +1,5 @@
-"""Verification of Theorem C3 (REPORT.md §14) and the boundary complement lemma.
+"""Verification of Theorem C3 and the boundary complement lemma, both proved
+in the paper (paper.tex, section "Minimal forbidden sequences").
 
 Theorem C3: no minimal forbidden sequence has Σ mᵢ = m₁(m₁+1)/2.
 

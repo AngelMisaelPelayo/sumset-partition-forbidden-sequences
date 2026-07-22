@@ -90,7 +90,8 @@ def minimal_forbidden_with_max(n):
 
 def extremal_family(j):
     """F_j = (4j, 4j, 2j-1, ..., 2j-1) with j copies of 2j-1.  Provably
-    minimal forbidden for every j >= 1 (REPORT §13); conjecturally extremal:
+    minimal forbidden for every j >= 1 (paper, Theorem "Extremal family");
+    conjecturally extremal:
     no minimal forbidden sequence of length k = j+2 has max entry > 4j."""
     return (4 * j, 4 * j) + (2 * j - 1,) * j
 

@@ -1,10 +1,11 @@
-"""Part IV experiments: the greedy assignment tree for n-realizability.
+"""Experiments on the greedy assignment tree for n-realizability.
 
 Tree: a node is an m-feasible non-increasing sequence with pending element m.
 Children: assign element m to an entry >= m (entry -> entry - m, drop zeros,
 re-sort); children are (m-1)-feasible.  Root: the n-feasible M, pending n.
 
-Theorem (proved in REPORT.md Part IV): M is n-realizable iff some maximal
+Theorem (Assignment-tree characterization, proved in the paper's section
+"The assignment tree"): M is n-realizable iff some maximal
 root-to-leaf path has every node simply realizable (relaxed sense); dead-end
 nodes always violate the i=1 tail volume condition, so a maximal all-realizable
 path necessarily reaches the empty node at depth n and encodes a partition.

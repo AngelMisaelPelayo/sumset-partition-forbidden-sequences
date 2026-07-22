@@ -1,6 +1,6 @@
-"""Part V experiments: resolution of conjecture C4 (unbounded order).
+"""Order-hierarchy experiments: resolution of conjecture C4 (unbounded order).
 
-Results verified here (proofs in REPORT.md Part V):
+Results verified here (proofs in the paper, section "The order hierarchy"):
 
   Theorem A (second-entry bound): if M is n-feasible, simply realizable and
     m2 <= n, then M is n-realizable.  Hence order >= 2  =>  m2 >= n+1

@@ -1,6 +1,6 @@
 """Fast exact realizability solver + candidate polynomial-time tests.
 
-Theory used (proofs in REPORT.md):
+Theory used (proofs in the paper, paper.tex):
   * Tail volume conditions are necessary:
         sum_{j>=i} m_j <= m_i(m_i+1)/2  for all i.
   * Universal Singleton Rule: if entry value v is demanded and element v is
