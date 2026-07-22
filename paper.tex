@@ -57,7 +57,12 @@ $n$-realizability: a greedy assignment tree pruned by the relaxed oracle is a co
 decision procedure, and its refutation depth defines an \emph{order} on non-realizable
 feasible sequences. We prove the order hierarchy is unbounded --- an explicit family
 attains every order, giving $\maxord(n)\ge\lfloor (n-1)/2\rfloor$ --- and that
-$\maxord(n)\le n-5$ for $n\ge 8$, with equality proved for all $8\le n\le 31$. Two
+$\maxord(n)\le n-5$ for $n\ge 8$, with equality proved for all $8\le n\le 31$. A
+Hall-type counting oracle, orthogonal to the relaxation, stratifies the witnesses
+with pairwise distinct entries: an explicit family of order $2$ violates the count
+at every level, while an all-odd \emph{odd-towers} family satisfies every counting
+condition yet fails $n$-realizability through a parity mechanism, with order at
+least $\lfloor n/4\rfloor$. Two
 horizon theorems show no witness family with a fixed finite core can certify the lower
 bound for all $n$. The computational complexity of both realizability notions remains
 open; we isolate a structured rainbow matching problem whose resolution would settle
@@ -180,7 +185,16 @@ maximum over maximal paths of the level of the first forbidden node --- equivale
 the refutation depth of the relaxed oracle. Order $1$ means the relaxation already
 detects non-realizability at the root; order $\ge2$ sequences are realizable in the
 relaxed sense but not $n$-realizable, and we show they must satisfy $m_1\ge n+2$ and
-$m_2\ge n+1$ (Theorems~\ref{thm:swap} and~\ref{thm:secondentry}).
+$m_2\ge n+1$ (Theorems~\ref{thm:swap} and~\ref{thm:secondentry}). Both bounds are
+attained simultaneously at every level by an explicit order-$2$ family $D_n$ with
+pairwise distinct entries (Proposition~\ref{prop:Dn}), the case $n=6$ being
+$(8,7,3,2,1)$. Distinct-entry witnesses --- automatically of order $\ge2$ --- are
+stratified further by a Hall-type counting oracle for the exact problem
+(Proposition~\ref{prop:counting}), incomparable with the relaxed oracle: $D_n$ is
+refuted by counting alone, whereas the all-odd \emph{odd-towers} family $O_n$
+satisfies every counting condition yet fails $n$-realizability through a parity
+mechanism, with $\lfloor n/4\rfloor\le\ord(O_n)\le n-5$ and computed order $n-8$
+for $24\le n\le32$ (Theorem~\ref{thm:oddtowers}).
 
 Writing $\maxord(n)$ for the largest order at level $n$, our main results on the
 hierarchy are:
@@ -256,7 +270,8 @@ $\mass(S)=\sum_{x\in S}x$ for finite $S\subseteq\N$, so
 $\mass(\intv{n})=\binom{n+1}{2}$. All computational claims are reproducible from the
 scripts accompanying this paper (\texttt{tail\_conjecture.py}, \texttt{layered\_solver.py},
 \texttt{core\_dp.py}, \texttt{minimal\_forbidden.py}, \texttt{boundary\_check.py},
-\texttt{assignment\_tree.py}, \texttt{order\_hierarchy.py}, \texttt{pairs\_scan.py}); every
+\texttt{assignment\_tree.py}, \texttt{order\_hierarchy.py}, \texttt{pairs\_scan.py},
+\texttt{distinct\_families.py}); every
 exhaustive claim states its verified range explicitly.
 
 \section{Heredity and the collapse of subsequence containment}\label{sec:heredity}
@@ -903,16 +918,198 @@ $\intv6$ the blocks $2=\{2\}$ and $3=\{3\}$ are forced ($\{1,2\}$ would strand
 $1$), leaving $\{1,4,5,6\}$ with no subset summing to $8$ --- not $6$-realizable;
 but $\{8\},\{1,7\},\{3\},\{2\}$ is a relaxed realization using the two overflow
 elements $7,8$. Its only child, $(8,3,2,2)$, is forbidden (the excess $2$ has no
-partner), so $\ord(8,8,3,2)=2$. Notably $(8,7,3,2,1)$ has all entries distinct:
-by Corollary~\ref{cor:distinct} distinct-entry sequences are always realizable, so
-every distinct-entry feasible non-realizable sequence has order $\ge2$
-automatically. Non-realizability of such sequences is a pure \emph{coverage}
-obstruction --- exactly the large-number placement that the relaxation discards.
-(An early example is $(13,12,11,9,4,3,2,1)$ at $n=10$, noted
-in~\cite[Example~4.1]{Moragas10} precisely to show that the absence of forbidden
-subsequences does not imply $n$-realizability.)
+partner), so $\ord(8,8,3,2)=2$. The third witness, $(8,7,3,2,1)$, has pairwise
+\emph{distinct} entries; such sequences are the subject of the next subsection.
 
-\subsection{Census for $n\le12$}
+\subsection{Distinct entries: counting obstructions and counting-blind
+witnesses}\label{subsec:distinct}
+
+By Corollary~\ref{cor:distinct} a sequence with pairwise distinct entries is always
+realizable in the relaxed sense, so every distinct-entry $n$-feasible
+non-$n$-realizable sequence has order $\ge2$ automatically: with distinct entries,
+non-realizability is a pure \emph{coverage} obstruction --- exactly the large-number
+placement that the relaxation discards. (An early example is $(13,12,11,9,4,3,2,1)$
+at $n=10$, noted in~\cite[Example~4.1]{Moragas10} precisely to show that the absence
+of forbidden subsequences does not imply $n$-realizability.) The witness
+$(8,7,3,2,1)$ suggests where such obstructions become visible: not in the
+relaxation, but in counting elements. Each block of a partition of $\intv n$ is a
+set of distinct integers from $\intv n$, which bounds the number of its elements
+exceeding any threshold from both sides in terms of its sum.
+
+\begin{proposition}[Counting conditions]\label{prop:counting}
+For integers $0\le t<n$ and $m\ge1$ put
+\[
+\alpha_t(m)=\max\Bigl\{j\ge0:\ jt+\tbinom{j+1}{2}\le m\Bigr\},
+\qquad
+\lambda_t(m)=\min\Bigl\{j\ge0:\ jn-\tbinom{j}{2}\,\ge\, m-\tbinom{t+1}{2}\Bigr\}
+\]
+(the latter well defined whenever $m\le\binom{n+1}{2}$, as is every entry of an
+$n$-feasible sequence). If $M$ is $n$-realizable, then
+\[
+\sum_{i=1}^{k}\lambda_t(m_i)\ \le\ n-t\ \le\ \sum_{i=1}^{k}\alpha_t(m_i)
+\qquad\text{for every } t\in\{0,1,\dots,n-1\}.
+\]
+\end{proposition}
+
+\begin{proof}
+Fix a partition $X_1\cup\dots\cup X_k=\intv n$ realizing $M$ and let
+$j_i=|X_i\cap\{t+1,\dots,n\}|$, so that $\sum_ij_i=n-t$ exactly. The $j_i$ elements
+of $X_i$ exceeding $t$ are distinct integers $\ge t+1$, so they carry mass at least
+$j_it+\binom{j_i+1}{2}$, which is at most $m_i$; hence $j_i\le\alpha_t(m_i)$. The
+elements of $X_i$ not exceeding $t$ are distinct positive integers $\le t$, of total
+mass at most $\binom{t+1}{2}$, so the elements exceeding $t$ carry at least
+$m_i-\binom{t+1}{2}$; being $j_i$ distinct integers $\le n$, they carry at most
+$j_in-\binom{j_i}{2}$, whence $j_i\ge\lambda_t(m_i)$. Summing over $i$ gives both
+inequalities.
+\end{proof}
+
+At $t=0$ the proposition reads $\sum_i\lambda_0(m_i)\le n\le\sum_i\alpha_0(m_i)$:
+the blocks jointly need at least $\sum_i\lambda_0(m_i)$ elements and can hold at
+most $\sum_i\alpha_0(m_i)$, while a partition uses exactly $n$. Unlike the
+Hall-type conditions of Section~\ref{subsec:hall}, which constrain the relaxed core
+inside $\intv{m_1}$, these conditions have no relaxed analogue: both inequalities
+rest on the covering constraint $\sum_ij_i=n-t$, precisely the information the
+relaxation discards. For $(8,7,3,2,1)$ at $n=6$ the count fails outright: the
+entries $8$ and $7$ exceed $6$, so each needs at least two elements of $\intv6$,
+while $3$, $2$ and $1$ need one each --- at least seven elements, and only six
+exist. This is the first member of an infinite family.
+
+\begin{proposition}[A distinct order-$2$ family at every level]\label{prop:Dn}
+For $n\ge6$ let
+\[
+D_n=(n+2,\ n+1,\ n-2,\ n-3,\ \dots,\ 5,\ 3,\ 2,\ 1),
+\]
+the interval $\intv{n-2}$ with the entry $4$ removed, preceded by the two towers
+$n+2$ and $n+1$. Then $D_n$ is $n$-feasible with pairwise distinct entries, violates
+the count condition ($t=0$) of Proposition~\ref{prop:counting}, and
+$\ord(D_n)=2$. In particular the bounds $m_1\ge n+2$ and $m_2\ge n+1$ of
+Theorems~\ref{thm:swap} and~\ref{thm:secondentry} are attained simultaneously at
+every level $n\ge6$; $D_6=(8,7,3,2,1)$.
+\end{proposition}
+
+\begin{proof}
+Feasibility: $\sum D_n=\binom{n-1}{2}-4+(2n+3)=\binom{n-1}{2}+(2n-1)
+=\binom{n+1}{2}$; the entries are distinct and sorted for $n\ge6$. Counting: the
+$n-3$ entries below $n$ have $\lambda_0=1$, while the towers exceed $n$ and are at
+most $2n-1$, so $\lambda_0(n+2)=\lambda_0(n+1)=2$; the total is $n+1>n$, so $D_n$ is
+not $n$-realizable. Distinct entries make $D_n$ realizable
+(Corollary~\ref{cor:distinct}), so $\ord(D_n)\ge2$. For the exact value: the pending
+element $n$ exceeds every entry except the two towers, so the root has exactly two
+children, obtained by assigning $n$ to $n+2$ (residual $2$) or to $n+1$ (residual
+$1$). Since the tail already contains the entries $2$ and $1$, the children contain
+the minimal forbidden sequences $(2,2)$ and $(1,1)$ respectively
+(Table~\ref{tab:catalog}) and are forbidden by Theorem~\ref{thm:collapse}. Hence
+every maximal path meets a forbidden node at level $2$, and $\ord(D_n)=2$.
+\end{proof}
+
+\begin{remark}[The two oracles are incomparable]\label{rem:incomparable}
+Neither refutation engine subsumes the other. The floor-and-towers sequence $W_a$ of
+Theorem~\ref{thm:Wa} below has order $a$ --- the relaxed oracle needs depth $a$ to
+refute it --- yet the count condition kills it at the root: at $n=2a+1$ the $a-1$
+largest elements have mass $\tfrac{3a^2+a-4}{2}<P$, so $\lambda_0(P)\ge a$, while
+$\lambda_0(Q)=2$ and the floor contributes $a$, for a total of at least
+$2a+2=n+1>n$; the
+same happens for the even-level family $V_r$ (\texttt{distinct\_families.py}), and
+Moragas's example $(13,12,11,9,4,3,2,1)$ fares no better ($\lambda_0$ sums to
+$11>10$). Conversely $\bigl(\binom{n+1}{2}-6,\,4,\,1,\,1\bigr)$ contains the minimal
+forbidden $(1,1)$ --- order $1$ --- yet satisfies every condition of
+Proposition~\ref{prop:counting} (verified for $n\le400$). Pruning the assignment
+tree at nodes failing either oracle is of course still sound, and can only decrease
+the refutation depth.
+\end{remark}
+
+So counting refutes $D_n$, $W_a$ and $V_r$ at the root, and the natural question is
+whether a coverage obstruction can hide from counting entirely. It can: the smallest
+counting-clean distinct-entry witnesses are $(12,8,5,2,1)$ and $(10,8,6,3,1)$ at
+$n=7$ (census counts in Section~\ref{subsec:census}), and an infinite family rides a
+parity mechanism instead.
+
+\begin{theorem}[Odd towers]\label{thm:oddtowers}
+For even $n=2s\ge8$ let
+\[
+O_n=\bigl(u,\ v,\ n-1,\ n-3,\ \dots,\ 3,\ 1\bigr),\qquad
+u=s^2-s-1=\tfrac{n^2-2n-4}{4},\quad v=n+1,
+\]
+the two towers $u>v$ followed by every odd number below $n$ --- all entries odd.
+Then:
+\begin{enumerate}[label=(\alph*),itemsep=1pt]
+\item $O_n$ is $n$-feasible with pairwise distinct entries;
+\item $O_n$ satisfies every counting condition of Proposition~\ref{prop:counting};
+\item $O_n$ is not $n$-realizable;
+\item $\lfloor n/4\rfloor\le\ord(O_n)\le n-5$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+(a) The floor has mass $\sum_{k=1}^{s}(2k-1)=s^2$ and $u+v=s^2+s$, so
+$\sum O_n=2s^2+s=\binom{n+1}{2}$. All entries are odd, and $u>v$ amounts to
+$s^2-3s-2>0$, true for $s\ge4$.
+
+(c) In any partition of $\intv n$ realizing $O_n$, the block of the entry $1$ is
+$\{1\}$. Inductively, suppose the entries $1,3,\dots,2k-3$ hold the blocks
+$\{1\},\{3\},\dots,\{2k-3\}$. The block of the entry $2k-1$ has odd sum, hence
+contains an odd element; its elements are at most $2k-1$ (Lemma~\ref{lem:selfbound}),
+and every smaller odd element is committed; so it contains the element $2k-1$ and,
+by mass, equals $\{2k-1\}$. The floor therefore consumes exactly the odd elements of
+$\intv n$, and the blocks of $u$ and $v$ would have to partition the even elements
+$\{2,4,\dots,n\}$ --- impossible, since a set of even numbers has even mass while $u$
+and $v$ are odd. (No global parity count is violated: as for any $n$-feasible
+sequence, $\#\{i:m_i\text{ odd}\}=s+2\equiv\lceil n/2\rceil\pmod 2$; the obstruction
+is local, appearing only after the floor is forced.)
+
+(b) Write $\mathrm{top}_j=jn-\binom{j}{2}$ for the mass of the $j$ largest elements
+of $\intv n$ and $\mathrm{bot}_j(t)=jt+\binom{j+1}{2}$ for that of the $j$ smallest
+elements exceeding $t$, so that $\lambda_t(m)=\min\{j:\mathrm{top}_j\ge
+m-\binom{t+1}{2}\}$ and $\alpha_t(m)=\max\{j:\mathrm{bot}_j(t)\le m\}$.
+
+\emph{Lower conditions.} First, $\lambda_t(m)\le n-t$ for every single entry, since
+$\mathrm{top}_{n-t}=\binom{n+1}{2}-\binom{t+1}{2}\ge m-\binom{t+1}{2}$. Second,
+$\mathrm{top}_{s-2}=\tfrac32(s-2)(s+1)\ge s^2-s-1$ (equivalent to $s^2-s\ge4$), so
+$\lambda_t(u)\le\lambda_0(u)\le s-2$ for every $t$. At $t=0$: $\lambda_0(v)=2$ and
+each of the $s$ floor entries has $\lambda_0=1$, so the total is at most
+$(s-2)+2+s=n$. For $1\le t\le s+1$: $\lambda_t(v)\le1$ (as
+$v-\binom{t+1}{2}\le n=\mathrm{top}_1$), and a floor entry contributes only if
+$2k-1>\binom{t+1}{2}$; since $\binom{t+1}{2}\ge2t-3$, at most $s-(t-1)$ values of
+$k$ qualify, so the total is at most $(s-2)+1+(s-t+1)=n-t$. For $t\ge s+2$:
+$\binom{t+1}{2}\ge\binom{s+3}{2}\ge2s+1$, so $v$ and the floor contribute nothing,
+and the total is $\lambda_t(u)\le n-t$ by the per-entry bound.
+
+\emph{Upper conditions.} A floor entry can absorb an element exceeding $t$ iff
+$2k-1\ge t+1$, which happens for $s-\lceil t/2\rceil$ values of $k$; and
+$\alpha_t(v)\ge2$ iff $2t+3\le2s+1$, i.e.\ iff $t\le s-1$ (always
+$\alpha_t(v)\ge1$). It therefore suffices to show $\alpha_t(u)\ge J$, where
+$J=s-\lfloor t/2\rfloor-2$ for $0\le t\le s-1$ and $J=s-\lfloor t/2\rfloor-1$ for
+$s\le t\le 2s-1$ (nothing to prove when $J\le0$). Put $w=\lfloor t/2\rfloor$, so
+$t\le2w+1$ and $\mathrm{bot}_J(t)\le J(2w+1)+\binom{J+1}{2}$. In the first case
+$w=s-J-2$ and the bound equals $J(4s-3J-5)/2\le(4s-5)^2/24\le s^2-s-1=u$, the last
+inequality being $8s^2+16s\ge49$. In the second case $w=s-J-1$ with
+$J\le s-\lfloor s/2\rfloor-1\le(s-1)/2$, and the bound equals $J(4s-3J-1)/2$,
+increasing in $J$ up to $(4s-1)/6\ge(s-1)/2$, hence at most
+$(s-1)(5s+1)/8\le s^2-s-1=u$, the last inequality being $(3s-7)(s+1)\ge0$. In both
+cases $\mathrm{bot}_J(t)\le u$, i.e.\ $\alpha_t(u)\ge J$, and the condition holds.
+
+(d) For the lower bound, follow the path that assigns every pending element to the
+$u$-tower. After $j$ assignments the tower's value is
+$u_j=u-\sum_{i=n-j+1}^{n}i\ge u-jn$, so for $j\le(s-4)/2$ we get
+$u_j\ge s^2-s-1-s(s-4)=3s-1>2s+1=v$: the node at level $j+1$ has entries
+$u_j,v,n-1,\dots,3,1$, pairwise distinct, hence realizable
+(Corollary~\ref{cor:distinct}), and the next assignment is legal
+($u_j>n\ge{}$pending). Some path is thus alive through level
+$\lfloor(s-4)/2\rfloor+1$, so the first forbidden node on any of its maximal
+extensions sits at level at least
+$\lfloor(s-4)/2\rfloor+2=\lfloor s/2\rfloor=\lfloor n/4\rfloor$. The upper bound is
+Theorem~\ref{thm:upper}.
+\end{proof}
+
+Machine computation (\texttt{distinct\_families.py}) gives
+$\ord(O_n)=2,2,4,6,8,8,10,12,16,18,20,22,24$ for $n=8,10,\dots,32$ --- equal to
+$n-8$ for every even $24\le n\le32$, three below the maximum $\maxord(n)=n-5$
+(Table~\ref{tab:lift}). Counting-blind distinct-entry witnesses of near-maximal
+order thus exist as far as we can compute; whether $\ord(O_n)=n-8$ persists, and
+whether distinct-entry (or counting-blind) sequences can attain $\maxord(n)$ itself,
+we leave open (Section~\ref{sec:open}).
+
+\subsection{Census for $n\le12$}\label{subsec:census}
 
 All $n$-feasible sequences with $n\le12$ were classified and the order of every
 non-$n$-realizable, realizable one computed (\texttt{assignment\_tree.py}); the full
@@ -926,7 +1123,12 @@ $(16,12,12,10,10,4,2)$, one of three order-$6$ sequences at $n=11$; and the uniq
 order-$7$ sequence at $n=12$, $(24,16,11,10,10,4,2,1)$, has as one child the
 order-$6$ witness $(16,12,11,10,10,4,2,1)$. This un-assignment mechanism is
 formalized in Proposition~\ref{prop:lift}. Distinct-entry non-realizable sequences
-are not rare: $1,6,20,73,215,692$ of them for $n=6,\dots,11$.
+are not rare: $1,6,20,73,215,692,1{,}972$ of them for $n=6,\dots,12$, of which
+$0,2,6,31,102,389,1{,}166$ satisfy every counting condition of
+Proposition~\ref{prop:counting}. The largest order attained by a distinct-entry
+sequence is $2,3,3,4,4,5,6$ for $n=6,\dots,12$ --- equal to $\maxord(n)$ up to
+$n=9$ (attained at $n=7$ by $W_3=(14,8,3,2,1)$ of Theorem~\ref{thm:Wa}), and
+exactly one short of it for $10\le n\le12$ (\texttt{distinct\_families.py}).
 
 \subsection{The upper bound $\maxord(n)\le n-5$}
 
@@ -1020,7 +1222,11 @@ other branches died at levels $\le a$. Therefore $\ord(W_a)=a$.
 
 Machine verification confirms $\ord(W_a)=a$ for $a=3,\dots,8$ ($n=7,\dots,17$). The
 family reproduces known extremal witnesses: $W_3=(14,8,3,2,1)$ attains
-$\maxord(7)=3$ and $W_4=(25,10,4,3,2,1)$ attains $\maxord(9)=4$. The same
+$\maxord(7)=3$ and $W_4=(25,10,4,3,2,1)$ attains $\maxord(9)=4$. Note that the
+entries of $W_a$ are pairwise distinct, so the family also shows that
+distinct-entry witnesses have unbounded order --- though, by
+Remark~\ref{rem:incomparable}, ones transparent to the counting oracle; the
+counting-blind analogue is Theorem~\ref{thm:oddtowers}. The same
 construction one step earlier covers the even levels:
 
 \begin{proposition}[Even levels]\label{prop:Vr}
@@ -1379,7 +1585,17 @@ mid-sized entries.
 \item \textbf{Order two.} Characterize the order-$2$ sequences. By
 Theorem~\ref{thm:swap} all their realizations need at least two overflow elements,
 and the failure is a coverage/subset-sum obstruction in $\intv n$ after forced
-small blocks.
+small blocks. The family $D_n$ (Proposition~\ref{prop:Dn}) supplies distinct-entry
+order-$2$ witnesses at every level $n\ge6$; a characterization should in particular
+explain which order-$2$ sequences the counting conditions of
+Proposition~\ref{prop:counting} detect.
+\item \textbf{Distinct entries and counting.} The odd-towers family $O_n$
+satisfies every counting condition of Proposition~\ref{prop:counting} yet has
+$\ord(O_n)=n-8$ for even $24\le n\le32$ (Theorem~\ref{thm:oddtowers}); is this
+exact for all even $n\ge24$? Distinct-entry sequences attain $\maxord(n)$ for
+$n\le9$ but fall exactly one short for $10\le n\le12$
+(Section~\ref{subsec:census}): can distinct-entry --- or counting-blind ---
+sequences attain $\maxord(n)$ infinitely often?
 \item \textbf{Certificates.} Is there a polynomial certificate of
 non-$n$-realizability, or is the unbounded order hierarchy
 (Corollary~\ref{cor:unbounded}) evidence of genuine hardness beyond the
