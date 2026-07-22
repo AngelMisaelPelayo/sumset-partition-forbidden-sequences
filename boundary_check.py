@@ -9,9 +9,9 @@ elements of {1,…,m₁} sum to exactly the deleted entry. Contrapositive: every
 forbidden boundary sequence has all single-deletion subsequences forbidden,
 hence is never minimal.
 
-Run: python3 check_c3.py   (enumerates all boundary sequences with m₁ ≤ 12)
+Run: python3 boundary_check.py   (enumerates all boundary sequences with m₁ ≤ 12)
 """
-from solver import realizable_fast
+from layered_solver import realizable_fast
 
 
 def boundary_sequences(n):

@@ -1,6 +1,6 @@
 """Experiments for Part II: efficient realizability testing.
 
-E1: validate realizable_fast against the reference brute force (verify.py).
+E1: validate realizable_fast against the reference brute force (tail_conjecture.py).
 E2: exhaustive study for m1 <= N: classify every non-increasing sequence,
     test the size<=2 conjecture, the Hall conditions, and greedy heuristics.
 """
@@ -8,8 +8,8 @@ E2: exhaustive study for m1 <= N: classify every non-increasing sequence,
 import time
 from collections import Counter
 
-import verify
-from solver import (realizable_fast, realizable_max_size, hall_conditions_ok,
+import tail_conjecture
+from layered_solver import (realizable_fast, realizable_max_size, hall_conditions_ok,
                     greedy_pairs, tail_volume_ok, strip)
 
 N = 10
@@ -32,9 +32,9 @@ def gen_sequences(n):
 def e1_validation():
     bad = []
     cnt = 0
-    for M in verify.all_sequences(8, 6):
+    for M in tail_conjecture.all_sequences(8, 6):
         cnt += 1
-        if realizable_fast(M) != verify.realizable(M):
+        if realizable_fast(M) != tail_conjecture.realizable(M):
             bad.append(M)
     print(f"E1: fast solver vs brute force on {cnt} sequences "
           f"(max entry <= 8, k <= 6): {'OK' if not bad else bad[:10]}")

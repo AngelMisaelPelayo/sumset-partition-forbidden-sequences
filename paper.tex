@@ -254,9 +254,9 @@ Throughout, $M=(m_1\ge\dots\ge m_k)$ is non-increasing with positive integer ent
 $T_i=(m_i,m_{i+1},\dots,m_k)$ denotes the $i$-th tail. We write
 $\mass(S)=\sum_{x\in S}x$ for finite $S\subseteq\N$, so
 $\mass(\intv{n})=\binom{n+1}{2}$. All computational claims are reproducible from the
-scripts accompanying this paper (\texttt{verify.py}, \texttt{solver.py},
-\texttt{core\_dp.py}, \texttt{minimal\_catalog.py}, \texttt{check\_c3.py},
-\texttt{nreal\_tree.py}, \texttt{c4.py}, \texttt{pairs\_scan.py}); every
+scripts accompanying this paper (\texttt{tail\_conjecture.py}, \texttt{layered\_solver.py},
+\texttt{core\_dp.py}, \texttt{minimal\_forbidden.py}, \texttt{boundary\_check.py},
+\texttt{assignment\_tree.py}, \texttt{order\_hierarchy.py}, \texttt{pairs\_scan.py}); every
 exhaustive claim states its verified range explicitly.
 
 \section{Heredity and the collapse of subsequence containment}\label{sec:heredity}
@@ -651,7 +651,7 @@ determined in~\cite[\S4.2.1]{Moragas10}.)
 \begin{table}[ht]
 \centering
 \caption{Minimal forbidden sequences by maximum entry $n\le12$
-(\texttt{minimal\_catalog.py}). The count sequence is not in the OEIS as of this
+(\texttt{minimal\_forbidden.py}). The count sequence is not in the OEIS as of this
 writing.}
 \label{tab:catalog}
 \begin{tabular}{@{}rrll@{}}
@@ -782,7 +782,7 @@ an explicit partition of $\intv{m_1}$. (iii) The $n$-feasible-but-not-$n$-realiz
 sequences of the sumset partition problem are precisely the boundary sequences
 containing an off-boundary minimal witness (Proposition~\ref{prop:minimalwitness}
 plus Theorem~\ref{thm:boundary}). Computationally, all $866{,}881$ boundary
-sequences with $m_1\le12$ were enumerated and tested (\texttt{check\_c3.py}): zero
+sequences with $m_1\le12$ were enumerated and tested (\texttt{boundary\_check.py}): zero
 violations of Lemma~\ref{lem:boundarycomp}, and no boundary sequence is minimal
 forbidden.
 
@@ -835,7 +835,7 @@ node cannot end at a dead end.
 Thus tree search with relaxed-oracle pruning is a \emph{correct and complete}
 decision procedure for $n$-realizability: an all-realizable maximal path \emph{is} a
 partition, and pruning at forbidden nodes is sound. (Verified exhaustively for all
-feasible sequences with $n\le7$, \texttt{nreal\_tree.py}.) Unlike
+feasible sequences with $n\le7$, \texttt{assignment\_tree.py}.) Unlike
 Theorem~\ref{thm:collapse}, where the analogous reduction collapsed to a single
 test, this recursion has genuine depth --- quantified next.
 
@@ -915,7 +915,7 @@ subsequences does not imply $n$-realizability.)
 \subsection{Census for $n\le12$}
 
 All $n$-feasible sequences with $n\le12$ were classified and the order of every
-non-$n$-realizable, realizable one computed (\texttt{nreal\_tree.py}); the full
+non-$n$-realizable, realizable one computed (\texttt{assignment\_tree.py}); the full
 counts, by order, appear in Table~\ref{tab:census} of Appendix~\ref{app:census}.
 The fraction of realizable feasible sequences that are $n$-realizable declines
 slowly with $n$, from $97\%$ at $n=6$ to $87\%$ at $n=12$, and the maximum order
@@ -1104,7 +1104,7 @@ witness at $n=12$, the scan gives:
 
 \begin{table}[ht]
 \centering
-\caption{Maximal-order witnesses by exact lifting (\texttt{c4.py}); the scan is
+\caption{Maximal-order witnesses by exact lifting (\texttt{order\_hierarchy.py}); the scan is
 exhaustive, so the counts are exact, for all $n\le23$.}
 \label{tab:lift}
 \begin{tabular}{@{}lrrrrrrrrrrr@{}}
@@ -1131,7 +1131,7 @@ un-assignment $M$ of a known order-$(n{-}5)$ witness that is realizable and not
 $(n{+}1)$-realizable satisfies $\ord(M)\ge n-4$ (via that child) and
 $\ord(M)\le\maxord(n+1)\le n-4$ (Theorem~\ref{thm:step}), so $\ord(M)=n-4$ and
 $\maxord(n+1)=n-4$ exactly; only the witness \emph{counts} are lost. A
-capped-frontier scan retaining at most $150$ witnesses per level (\texttt{c4.py};
+capped-frontier scan retaining at most $150$ witnesses per level (\texttt{order\_hierarchy.py};
 total running time about $23$ minutes) continues the chain through $n=31$ (order
 $26$), e.g.\ $(272,33,25,24,24,24,24,16,16,15,10,10,2,1)$. Hence
 \[
@@ -1392,7 +1392,7 @@ forbidden sequences with maximum entry $n$ (Table~\ref{tab:catalog}).
 
 \section{The exact solver}\label{app:solver}
 
-The layered algorithm \texttt{realizable\_fast} (\texttt{solver.py}) is exact
+The layered algorithm \texttt{realizable\_fast} (\texttt{layered\_solver.py}) is exact
 regardless of Conjecture~\ref{conj:pairs}: (1) tail volume check~\eqref{eq:volume},
 $O(k)$, rejecting $97\%$ of all sequences outright; (2) singleton stripping
 (Corollary~\ref{cor:core}), provably safe; (3) two greedy passes, sound when they
@@ -1428,7 +1428,7 @@ and~\ref{prop:exactmatching}.
 \begin{table}[ht]
 \centering
 \caption{Classification of all $n$-feasible sequences, $n\le12$
-(\texttt{nreal\_tree.py}).}
+(\texttt{assignment\_tree.py}).}
 \label{tab:census}
 \footnotesize
 \begin{tabular}{@{}rrrrrlr@{}}

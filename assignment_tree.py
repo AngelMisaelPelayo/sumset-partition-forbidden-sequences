@@ -21,12 +21,12 @@ This script:
   3. lists the counterexamples to the collapse (relaxed-realizable but not
      n-realizable, i.e. order >= 2) and computes their orders.
 
-Run: python3 nreal_tree.py [NMAX]
+Run: python3 assignment_tree.py [NMAX]
 """
 
 import sys
 import time
-from solver import realizable_fast
+from layered_solver import realizable_fast
 
 sys.setrecursionlimit(1000000)
 

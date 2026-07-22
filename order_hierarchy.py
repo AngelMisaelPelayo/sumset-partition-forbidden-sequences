@@ -45,13 +45,13 @@ Results verified here (proofs in the paper, section "The order hierarchy"):
     new entry n+1) of those.  Starting from the unique order-7 witness at
     n=12 this extends the lower bound max-order(n) >= n-5 level by level.
 
-Run: python3 c4.py [LIFT_NMAX]
+Run: python3 order_hierarchy.py [LIFT_NMAX]
 """
 
 import sys
 import time
-from solver import realizable_fast
-from nreal_tree import n_realizable, order, children, tri, partitions
+from layered_solver import realizable_fast
+from assignment_tree import n_realizable, order, children, tri, partitions
 
 sys.setrecursionlimit(1000000)
 

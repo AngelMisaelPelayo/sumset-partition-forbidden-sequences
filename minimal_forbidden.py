@@ -20,7 +20,7 @@ from functools import lru_cache
 from itertools import combinations_with_replacement
 from collections import Counter
 
-from solver import realizable_fast
+from layered_solver import realizable_fast
 
 
 @lru_cache(maxsize=None)

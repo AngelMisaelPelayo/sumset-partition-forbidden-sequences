@@ -23,7 +23,7 @@ import sys
 import time
 from multiprocessing import Pool
 
-from solver import realizable_fast, realizable_max_size, tail_volume_ok
+from layered_solver import realizable_fast, realizable_max_size, tail_volume_ok
 
 sys.setrecursionlimit(100000)
 

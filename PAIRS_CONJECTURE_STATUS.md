@@ -11,7 +11,7 @@ ranges**. Several new structural reductions below shrink the search space for
 any future verification and pin down exactly what a counterexample would have
 to look like; two independent "cheap obstruction" routes to a disproof are
 shown to be impossible, and the two natural proof strategies are shown to fail
-at a precisely identified step. All searches reuse `solver.py`
+at a precisely identified step. All searches reuse `layered_solver.py`
 (`realizable_fast`, `realizable_max_size`), cross-validated against
 independent brute force on 4,000 random instances with $m_1 \le 10$; the
 search driver is `pairs_scan.py`.

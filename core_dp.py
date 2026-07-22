@@ -22,7 +22,7 @@ symmetry reduction that never changes reachability of the full-target
 state.
 
 Self-test (python3 core_dp.py [m1_max]): exhaustive agreement with
-solver.realizable_fast on every non-increasing sequence with m1 <= m1_max
+layered_solver.realizable_fast on every non-increasing sequence with m1 <= m1_max
 and sum <= m1(m1+1)/2 + m1 (the margin exercises the volume-reject path).
 Default m1_max = 9: 246,232 sequences, ~3 s.
 """
@@ -30,7 +30,7 @@ Default m1_max = 9: 246,232 sequences, ~3 s.
 import sys
 from collections import Counter
 
-from solver import tail_volume_ok
+from layered_solver import tail_volume_ok
 
 
 def first_repeat_core(M):
@@ -117,7 +117,7 @@ def all_sequences(m1_max):
 
 
 if __name__ == "__main__":
-    from solver import realizable_fast
+    from layered_solver import realizable_fast
 
     # paper examples first (fast smoke test)
     for M, want in [((6, 6, 2, 1), False),        # eq:volume discussion

@@ -1,4 +1,4 @@
-"""Timing comparison: layered solver (solver.realizable_fast) vs the
+"""Timing comparison: layered solver (layered_solver.realizable_fast) vs the
 parameterized core dynamic program (core_dp.py).  Empirical basis for the
 complementarity discussion in the paper (Section 7 and Appendix app:solver):
 the two solvers are complementary in guarantees, not in practice.
@@ -30,7 +30,7 @@ import sys
 import time
 
 from core_dp import core_dp, first_repeat_core
-from solver import realizable_fast, tail_volume_ok
+from layered_solver import realizable_fast, tail_volume_ok
 
 
 def core_dp_decide(M):
