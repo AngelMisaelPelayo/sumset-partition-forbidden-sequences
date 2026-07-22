@@ -57,8 +57,7 @@ The longer exhaustive runs (`pairs_scan.py` at `m_1 = 18`, `order_hierarchy.py` 
 ```bibtex
 @unpublished{pelayo2026forbidden,
   author = {Pelayo, Angel},
-  title  = {Forbidden sequences in the sumset partition problem:
-            heredity, minimal obstructions, and the order hierarchy},
+  title  = {Forbidden sequences in the sumset partition problem},
   year   = {2026},
   note   = {Submitted},
 }
