@@ -31,6 +31,7 @@ Python 3.9+. Standard library only — no third-party packages.
 | `check_c3.py` | §4.4 | Verifies that no minimal forbidden sequence lies on the exact-partition boundary `Σ m_i = m_1(m_1+1)/2`. |
 | `nreal_tree.py` | §5, App. B | Greedy assignment tree for exact n-realizability; computes the order of non-realizable feasible sequences and the census for `n ≤ 12`. |
 | `c4.py` | §6 | Order-hierarchy results: second-entry bound, step bound, the floor-and-towers family, and `maxord(n) = n − 5` for `8 ≤ n ≤ 31`. |
+| `bench_solvers.py` | §7, App. A | Timing comparison of the layered solver vs the core DP; locates their shared hard regime (many excess copies). |
 
 Each script is self-contained and documents its own theory and runtime in its
 module docstring. Run, e.g.:

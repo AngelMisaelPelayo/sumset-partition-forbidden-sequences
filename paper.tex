@@ -1346,8 +1346,12 @@ Appendix~\ref{app:solver} classifies all $7.4$ million sequences with $m_1\le12$
 in seconds, with the volume conditions~\eqref{eq:volume} alone settling $97\%$ of
 instances. The dynamic program of Proposition~\ref{prop:coredp} is implemented in
 \texttt{core\_dp.py} and agrees with the layered solver on all $246{,}232$
-sequences with $m_1\le9$. Whether this practical lightness reflects
-polynomial-time decidability is the central algorithmic question left open.
+sequences with $m_1\le9$. The lightness is not uniform, however: randomized
+stress tests (Appendix~\ref{app:solver}) locate near-tight instances with many
+distinct repeated values on which both implementations stall, concentrating
+empirical hardness in the same two-parameter regime identified above. Whether
+the practical lightness of typical instances reflects polynomial-time
+decidability is the central algorithmic question left open.
 
 \section{Open problems}\label{sec:open}
 
@@ -1402,6 +1406,22 @@ small entries): $3.4$\,s. The dynamic program of Proposition~\ref{prop:coredp} i
 implemented separately in \texttt{core\_dp.py}, whose self-test re-verifies
 agreement with \texttt{realizable\_fast} on every sequence with $m_1\le9$
 ($246{,}232$ sequences, including all volume-infeasible ones up to a margin).
+
+The two solvers are complementary in guarantees rather than in practice
+(\texttt{bench\_solvers.py}). Where the dynamic program is tractable --- few
+excess copies --- the greedy layers already succeed in microseconds and outrun
+it: random instances with $r=2$ and $60\le m_1\le100$ take under a millisecond
+for the layered solver against several milliseconds for the dynamic program,
+which always pays for its full table. Conversely, the empirically hard
+instances for the backtracking layer are near-tight sequences with many excess
+copies: in a randomized stress test over volume-feasible instances with
+$m_1\le60$ and multiplicities up to $4$, every instance on which
+\texttt{realizable\_fast} exceeded $50$\,ms --- some exceeding a $2$\,s guard ---
+had $r\ge5$, typically $11$--$17$, where the state space $r\prod_j(v_j+1)$ of
+Proposition~\ref{prop:coredp} ranges from $10^{12}$ to $10^{36}$. The two
+methods thus share a single hard regime --- many distinct repeated values ---
+precisely the regime left open after Propositions~\ref{prop:coredp}
+and~\ref{prop:exactmatching}.
 
 \section{Census of the order hierarchy, $n\le12$}\label{app:census}
 
