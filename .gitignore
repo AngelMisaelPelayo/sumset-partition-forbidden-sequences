@@ -1,0 +1,23 @@
+# Copyrighted third-party material — do not publish
+refs/moragas_thesis.pdf
+
+# Private working notes — do not publish
+REPORT.md
+REVISION_NOTES.md
+
+# Python
+__pycache__/
+*.pyc
+
+# LaTeX build artifacts
+*.aux
+/paper.log
+/paper.out
+*.toc
+*.bbl
+*.blg
+*.synctex.gz
+paper.pdf
+
+# macOS
+.DS_Store
